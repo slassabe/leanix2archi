@@ -40,9 +40,9 @@ Version 3.1 (19/08/2020) :
 Version 3.3 (27/08/2020) :
 ==========================
 # Export du cycle de vie et des tags LeanIX sous forme de properties LeanIx
-    - LEANIX.FIELDS.LIFECYCLE.{plan | phaseIn | active | phaseOut | endOfLife }
+    - LEANIX.FIELDS.LIFECYCLE.(plan | phaseIn | active | phaseOut | endOfLife )
     - LEANIX.FIELDS.EXTERNAL_ID
-    - LEANIX.TAGS.{ Hiérarchie projet }
+    - LEANIX.TAGS.( Hiérarchie projet )
 
 Version 3.4 (09/09/2020) :
 ==========================

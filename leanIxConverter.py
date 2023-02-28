@@ -19,7 +19,6 @@ from leanIXConverterModels import Model
 from connectorAPI import GraphQLReader
 from connectorArchi import XmlArchiWriter
 from connectorExcel import ExcelWriter
-from ConnectorBinary import BinaryReader, BinaryWriter
 from releaseNotes import getNotes, getBanner
 from customLog import init_log
 
