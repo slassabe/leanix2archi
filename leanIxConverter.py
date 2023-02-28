@@ -67,7 +67,7 @@ def check_if_changed(model, checksum_filename, ws, when, changelog_filename):
     else:
         if __version__ != version_previous:  # Create changelog
             with open(changelog_filename, 'w', encoding='utf-8') as output:
-                output.write(getBanner() + getNotes())
+                output.write(getBanner() + getNotes(ws, when))
                 output.write(
                     f"Info de génération : \nDate : {when} - Version : {__version__}\n")
         logger.info(
