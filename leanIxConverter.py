@@ -115,27 +115,19 @@ def launch_it(ws, leanix_url, leanix_token, sftp_srv, sftp_usr, sftp_pwd, ntfy_c
     logger.info(f'{when} :  Exporting workspace {ws} ')
     inform(ntfy_channel, 'Export', 'Started')
 
-    if False:
-        # Parse binary file (result of a previous conversion) : used in debugging mode
-        binary_reader_full = BinaryReader(f'Leanix2Binary-{ws}-full.binary')
-        model_full = binary_reader_full.get_model()
+    # Connect to LeanIX 
+    graphQL_reader = GraphQLReader(leanix_url, ws, leanix_token, Model())
+    # Populate the model with an extract restricted to Application and Interface
+    graphQL_reader.populate(False)
+    model_light = graphQL_reader.get_model()
 
-        binary_reader_light = BinaryReader(f'Leanix2Binary-{ws}-light.binary')
-        model_full = binary_reader_light.get_model()
-    else:
-        # Connect to LeanIX 
+    if _FULL :
         graphQL_reader = GraphQLReader(leanix_url, ws, leanix_token, Model())
-        # Populate the model with an extract restricted to Application and Interface
-        graphQL_reader.populate(False)
-        model_light = graphQL_reader.get_model()
+        # Populate the model with a full extract
+        graphQL_reader.populate(True)
+        model_full = graphQL_reader.get_model()
 
-        if _FULL :
-            graphQL_reader = GraphQLReader(leanix_url, ws, leanix_token, Model())
-            # Populate the model with a full extract
-            graphQL_reader.populate(True)
-            model_full = graphQL_reader.get_model()
-
-        logger.info(model_light.get_statistics())
+    logger.info(model_light.get_statistics())
 
     checksum_new = check_if_changed(
         model_light, _CHECKSUM_FILENAME, ws, when, _OUTPUT_DIR / 'changelog.txt')
@@ -143,18 +135,11 @@ def launch_it(ws, leanix_url, leanix_token, sftp_srv, sftp_usr, sftp_pwd, ntfy_c
     if (checksum_new):    # Something changed in LeanIx or launched in test mode
         # (2) Create writers
         archi_writer_light = XmlArchiWriter(model_light)
-        binary_writer_light = BinaryWriter(model_light)
         excel_writer_light = ExcelWriter(model_light)
         if _FULL :
-            binary_writer_full = BinaryWriter(model_full)
             archi_writer_full = XmlArchiWriter(model_full)
 
         # (3) Dump Model in various format
-        # Export in Binary format
-        binary_writer_light.dump(f"Leanix2Binary-{ws}-light.binary")
-        if _FULL :
-            binary_writer_full.dump(f"Leanix2Binary-{ws}-full.binary")
-
         # Export in Archi format
         archi_writer_light.dump(_OUTPUT_DIR / _EXPORT_FILE_LIGHT, getNotes(ws, when))
         if _FULL :
