@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  leanix2archi:
+    build: .
+    image: python-converter
+    container_name: converter
+    environment:
+    - TZ=Europe/Paris
+    - LEANIX_WS
+    - LEANIX_URL
+    - LEANIX_TOKEN
+    - SFTP_SRV
+    - SFTP_USR
+    - SFTP_PWD
+    - NTFY_CHANNEL
+    volumes:
+    - /Users/serge/Dev/Volume/leanix2archi/output:/app/output
+    - /Users/serge/Dev/Volume/leanix2archi/log:/app/log
+    command: [ "python", "leanIxConverter.py"]
