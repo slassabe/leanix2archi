@@ -1,12 +1,15 @@
 # Export LeanIx content
 
+
+![logo](_Images/logo.png)
+
 * Extract Leanix workspace content and convert it to Archimate format OEF ([Open Exchange File](https://www.opengroup.org/open-group-archimate-model-exchange-file-format)). 
 * The resulting file is uploaded via SFTP
 * A message is send to notify end of process via [ntfy.sh](https://ntfy.sh/)
 
 ## Sequence diagram
 
-![logo](_Images/sequence.png)
+![sequence](_Images/sequence.png)
 
 ## Running in Docker container
 
